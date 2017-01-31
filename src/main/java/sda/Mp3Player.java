@@ -2,14 +2,16 @@ package sda;
 
 import javazoom.jl.player.Player;
 
-import java.io.FileInputStream;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
 
 public class Mp3Player implements Runnable {
     @Override
     public void run() {
         try{
-            FileInputStream fis = new FileInputStream(getClass().getResource("/soundtrack.mp3").getFile());
-            Player playMP3 = new Player(fis);
+            InputStream inputStream = getClass().getResourceAsStream("/soundtrack.mp3");
+            BufferedInputStream bis = new BufferedInputStream(inputStream);
+            Player playMP3 = new Player(bis);
             playMP3.play();
         }
         catch(Exception exc){
