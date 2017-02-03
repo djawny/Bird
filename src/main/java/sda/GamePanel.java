@@ -5,14 +5,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
 
 public class GamePanel extends JPanel implements ActionListener {
-    private final Dimension SIZE = new Dimension(800, 550);
+    public final Dimension SIZE = new Dimension(800, 550);
     private final int OBSTACLE_WIDTH = 75;
     private final int GAP_CHANGE = 50;
     private final int OBSTACLE_GROUND_STEP = 2;
@@ -20,17 +18,17 @@ public class GamePanel extends JPanel implements ActionListener {
     private Integer score;
     private Obstacle[] obstacles = new Obstacle[3];
     private Ground[] grounds = new Ground[5];
-    private Bird bird;
-    private Timer gameTimer;
-    private int verticalDirection;
-    private boolean gameOver;
+    public Bird bird;
+    public Timer gameTimer;
+    public int verticalDirection;
+    public boolean gameOver;
     private BufferedImage backgroundImg;
     private BufferedImage birdImg;
     private BufferedImage topTubeImg;
     private BufferedImage bottomTubeImg;
     private BufferedImage groundImg;
 
-    private GamePanel() {
+    public GamePanel() {
         gameTimer = new Timer(30, this);
         try {
             getResources();
@@ -48,7 +46,7 @@ public class GamePanel extends JPanel implements ActionListener {
         groundImg = ImageIO.read(getClass().getResourceAsStream("/ground.png"));
     }
 
-    private void restart() {
+    public void restart() {
         score = 0;
         gameOver = false;
         bird = new Bird(150, 275, 50, 3, 350);
@@ -183,53 +181,5 @@ public class GamePanel extends JPanel implements ActionListener {
         }
         moveGround();
         repaint();
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            Thread mp3Player = new Thread(new Mp3Player());
-            mp3Player.start();
-            JFrame frame = new JFrame();
-            frame.setTitle("Flappy Angry Bird");
-            frame.setSize(new Dimension(830, 600));
-            frame.setLocationRelativeTo(null);
-            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            frame.setLayout(new FlowLayout());
-            GamePanel gamePanel = new GamePanel();
-            gamePanel.setPreferredSize(gamePanel.SIZE);
-            gamePanel.setBackground(Color.cyan);
-            frame.add(gamePanel);
-            frame.setVisible(true);
-            frame.addKeyListener(new KeyListener() {
-                @Override
-                public void keyTyped(KeyEvent e) {
-
-                }
-
-                @Override
-                public void keyPressed(KeyEvent e) {
-                    if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                        gamePanel.verticalDirection = -1;
-                        gamePanel.bird.setYLimit(gamePanel.bird.getY() - 40);
-                        gamePanel.bird.setStep(25);
-                    }
-                    if (e.getKeyCode() == KeyEvent.VK_ESCAPE && gamePanel.gameOver) {
-                        gamePanel.restart();
-                    }
-                    if (e.getKeyCode() == KeyEvent.VK_EQUALS || e.getKeyCode() == KeyEvent.VK_ADD) {
-                        gamePanel.gameTimer.setDelay(gamePanel.gameTimer.getDelay() + 1);
-                    }
-                    if ((e.getKeyCode() == KeyEvent.VK_MINUS || e.getKeyCode() == KeyEvent.VK_SUBTRACT)
-                            && gamePanel.gameTimer.getDelay() > 0) {
-                        gamePanel.gameTimer.setDelay(gamePanel.gameTimer.getDelay() - 1);
-                    }
-                }
-
-                @Override
-                public void keyReleased(KeyEvent e) {
-
-                }
-            });
-        });
     }
 }
