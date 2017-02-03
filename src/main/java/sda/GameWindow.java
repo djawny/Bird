@@ -19,6 +19,7 @@ public class GameWindow extends JFrame implements KeyListener {
         gamePanel.setBackground(Color.cyan);
         add(gamePanel);
         setVisible(true);
+        addKeyListener(this);
     }
 
     @Override
