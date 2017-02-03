@@ -10,38 +10,40 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 public class GamePanel extends JPanel implements ActionListener {
-    private final Dimension SIZE = new Dimension(800, 550);
-    private final int OBSTACLE_WIDTH = 75;
-    private final int GAP_CHANGE = 50;
-    private final int OBSTACLE_GROUND_STEP = 2;
-    private final int GAP_HEIGHT = 150;
-    private Integer score;
-    private List<Obstacle> obstacles = new ArrayList<>();
-    private List<Ground> grounds = new ArrayList<>();
-    private Bird bird;
-    private Timer gameTimer;
-    private int verticalDirection;
-    private boolean gameOver;
+    private static final Dimension PANEL_SIZE = new Dimension(800, 550);
+    private static final int INIT_GAME_TIMER_DELAY = 30;
+    private static final int OBSTACLE_WIDTH = 75;
+    private static final int GAP_CHANGE = 50;
+    private static final int OBSTACLE_GROUND_STEP = 2;
+    private static final int GAP_HEIGHT = 150;
     private BufferedImage backgroundImg;
     private BufferedImage birdImg;
     private BufferedImage topTubeImg;
     private BufferedImage bottomTubeImg;
     private BufferedImage groundImg;
+    private List<Obstacle> obstacles = new ArrayList<>();
+    private List<Ground> grounds = new ArrayList<>();
+    private Integer score;
+    private Bird bird;
+    private Timer gameTimer;
+    private int verticalDirection;
+    private boolean gameOver;
 
     public GamePanel() {
         gameTimer = new Timer(30, this);
         try {
             getResources();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Blad wczytania danych");
         }
         restart();
     }
 
-    public Dimension getSIZE() {
-        return SIZE;
+    public Dimension getPANEL_SIZE() {
+        return PANEL_SIZE;
     }
 
     public Timer getGameTimer() {
@@ -69,17 +71,17 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void restart() {
-        valuablesInit();
+        gameValuablesInit();
         birdInit();
         groundsInit();
         obstaclesInit();
     }
 
-    private void valuablesInit() {
+    private void gameValuablesInit() {
         score = 0;
         gameOver = false;
         verticalDirection = -1;
-        gameTimer.setDelay(30);
+        gameTimer.setDelay(INIT_GAME_TIMER_DELAY);
         gameTimer.start();
     }
 
@@ -90,19 +92,16 @@ public class GamePanel extends JPanel implements ActionListener {
     private void obstaclesInit() {
         Random random = new Random();
         obstacles.clear();
-        for (int i = 0; i < 3; i++) {
-            obstacles.add(new Obstacle((int) SIZE.getWidth() + i * 300, 0, OBSTACLE_WIDTH,
-                    (int) SIZE.getHeight() - grounds.get(0).getHeight(), random.nextInt(350), GAP_HEIGHT))
-            ;
-        }
+        IntStream.range(0, 3).forEach(i -> obstacles.add(new Obstacle((int) PANEL_SIZE.getWidth() + i * 300,
+                0, OBSTACLE_WIDTH, (int) PANEL_SIZE.getHeight() - grounds.get(0).getHeight(),
+                random.nextInt(350), GAP_HEIGHT)));
     }
 
     private void groundsInit() {
-        int quarterWidth = (int) (SIZE.getWidth() / 4);
+        int quarterWidth = (int) (PANEL_SIZE.getWidth() / 4);
         grounds.clear();
-        for (int i = 0; i < 5; i++) {
-            grounds.add(new Ground(i * quarterWidth, (int) SIZE.getHeight() - 50, quarterWidth, 50));
-        }
+        IntStream.range(0, 5).forEach(i -> grounds.add(new Ground(i * quarterWidth,
+                (int) PANEL_SIZE.getHeight() - 50, quarterWidth, 50)));
     }
 
     private void moveBird() {
@@ -115,7 +114,7 @@ public class GamePanel extends JPanel implements ActionListener {
             bird.setStep(3);
         }
         bird.setY(bird.getY() + verticalDirection * bird.getStep());
-        if (bird.getY() >= SIZE.getHeight() - grounds.get(0).getHeight() - bird.getDiameter()) {
+        if (bird.getY() >= PANEL_SIZE.getHeight() - grounds.get(0).getHeight() - bird.getDiameter()) {
             gameOver = true;
         }
     }
@@ -132,13 +131,14 @@ public class GamePanel extends JPanel implements ActionListener {
                         int sign;
                         if (obstacle.getGapY() <= obstacle.getGapHeight()) {
                             sign = 1;
-                        } else if (obstacle.getGapY() >= SIZE.getHeight() - obstacle.getGapHeight() - GAP_CHANGE - grounds.get(0).getHeight()) {
+                        } else if (obstacle.getGapY() >= PANEL_SIZE.getHeight() - obstacle.getGapHeight() -
+                                GAP_CHANGE - grounds.get(0).getHeight()) {
                             sign = -1;
                         } else {
                             Random random = new Random();
                             sign = (random.nextInt(2) == 0 ? 1 : -1);
                         }
-                        obstacle.setX((int) SIZE.getWidth());
+                        obstacle.setX((int) PANEL_SIZE.getWidth());
                         obstacle.setGapY(obstacle.getGapY() + GAP_CHANGE * sign);
                     }
                     obstacle.setX(obstacle.getX() - OBSTACLE_GROUND_STEP);
@@ -152,14 +152,14 @@ public class GamePanel extends JPanel implements ActionListener {
     private void moveGrounds() {
         grounds.forEach(ground -> {
             if (ground.getX() < -ground.getWidth()) {
-                ground.setX((int) SIZE.getWidth());
+                ground.setX((int) PANEL_SIZE.getWidth());
             }
             ground.setX(ground.getX() - OBSTACLE_GROUND_STEP);
         });
     }
 
     private void drawBackground(Graphics2D g2) {
-        g2.drawImage(backgroundImg, 0, 0, (int) SIZE.getWidth(), (int) SIZE.getHeight(), this);
+        g2.drawImage(backgroundImg, 0, 0, (int) PANEL_SIZE.getWidth(), (int) PANEL_SIZE.getHeight(), this);
     }
 
     private void drawBird(Graphics2D g2) {
@@ -169,8 +169,8 @@ public class GamePanel extends JPanel implements ActionListener {
     private void drawObstacles(Graphics2D g2) {
         obstacles.forEach(obstacle -> {
             g2.drawImage(topTubeImg, obstacle.getX(), obstacle.getY(), obstacle.getWidth(), obstacle.getGapY(), this);
-            g2.drawImage(bottomTubeImg, obstacle.getX(), obstacle.getGapY() + obstacle.getGapHeight(), obstacle.getWidth()
-                    , obstacle.getHeight() - (obstacle.getGapY() + obstacle.getGapHeight()), this);
+            g2.drawImage(bottomTubeImg, obstacle.getX(), obstacle.getGapY() + obstacle.getGapHeight(),
+                    obstacle.getWidth(), obstacle.getHeight() - (obstacle.getGapY() + obstacle.getGapHeight()), this);
         });
     }
 
@@ -181,10 +181,11 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     private void drawGround(Graphics g2) {
-        grounds.forEach(ground -> g2.drawImage(groundImg, ground.getX(), ground.getY(), ground.getWidth() + 2, ground.getHeight(), this));
+        grounds.forEach(ground -> g2.drawImage(groundImg, ground.getX(), ground.getY(), ground.getWidth() + 2,
+                ground.getHeight(), this));
     }
 
-    private void drawGameOver(Graphics2D g2) {
+    private void drawGameOverMessage(Graphics2D g2) {
         if (gameOver) {
             g2.setColor(Color.MAGENTA);
             g2.setFont(new Font("SansSerif", Font.BOLD, 100));
@@ -212,7 +213,7 @@ public class GamePanel extends JPanel implements ActionListener {
         drawBird(g2);
         drawScore(g2);
         drawGround(g2);
-        drawGameOver(g2);
+        drawGameOverMessage(g2);
     }
 
     @Override

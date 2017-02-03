@@ -21,7 +21,7 @@ public class GameWindow extends JFrame implements KeyListener {
 
     private void createAndAddGamePanel() {
         gamePanel = new GamePanel();
-        gamePanel.setPreferredSize(gamePanel.getSIZE());
+        gamePanel.setPreferredSize(gamePanel.getPANEL_SIZE());
         gamePanel.setBackground(Color.cyan);
         add(gamePanel);
     }
