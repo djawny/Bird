@@ -8,7 +8,7 @@ import java.awt.event.KeyListener;
 public class GameWindow extends JFrame implements KeyListener {
     private GamePanel gamePanel;
 
-    public GameWindow() {
+    public GameWindow() throws HeadlessException{
         setTitle("Flappy Angry Bird");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new FlowLayout());

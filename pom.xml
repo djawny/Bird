@@ -50,7 +50,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>sda.GamePanel</mainClass>
+                                    <mainClass>sda.GameMain</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>
