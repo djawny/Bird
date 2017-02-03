@@ -14,8 +14,7 @@ public class Mp3Player implements Runnable {
             Player playMP3 = new Player(bis);
             playMP3.play();
         }
-        catch(Exception exc){
-            exc.printStackTrace();
+        catch(Exception e){
             System.out.println("Failed to play the mp3 soundtrack.");
         }
     }
