@@ -9,20 +9,16 @@ public class GameWindow extends JFrame implements KeyListener {
     private GamePanel gamePanel;
 
     public GameWindow() {
-        SwingUtilities.invokeLater(() -> {
-            Thread mp3Player = new Thread(new Mp3Player());
-            mp3Player.start();
-            setTitle("Flappy Angry Bird");
-            setSize(new Dimension(830, 600));
-            setLocationRelativeTo(null);
-            setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            setLayout(new FlowLayout());
-            gamePanel = new GamePanel();
-            gamePanel.setPreferredSize(gamePanel.SIZE);
-            gamePanel.setBackground(Color.cyan);
-            add(gamePanel);
-            setVisible(true);
-        });
+        setTitle("Flappy Angry Bird");
+        setSize(new Dimension(830, 600));
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setLayout(new FlowLayout());
+        gamePanel = new GamePanel();
+        gamePanel.setPreferredSize(gamePanel.SIZE);
+        gamePanel.setBackground(Color.cyan);
+        add(gamePanel);
+        setVisible(true);
     }
 
     @Override
