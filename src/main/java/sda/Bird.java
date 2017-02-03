@@ -35,10 +35,6 @@ public class Bird {
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
     public int getY() {
         return y;
     }
@@ -49,9 +45,5 @@ public class Bird {
 
     public int getDiameter() {
         return diameter;
-    }
-
-    public void setDiameter(int diameter) {
-        this.diameter = diameter;
     }
 }
