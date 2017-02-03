@@ -165,7 +165,7 @@ public class GamePanel extends JPanel implements ActionListener {
             g2.setFont(new Font("SansSerif", Font.BOLD, 100));
             g2.drawString("GAME OVER", 100, 260);
             g2.setFont(new Font("SansSerif", Font.BOLD, 40));
-            g2.drawString("Press ESC to start again.", 200, 330);
+            g2.drawString("Press ESC to start again.", 180, 330);
             gameTimer.stop();
         }
     }
