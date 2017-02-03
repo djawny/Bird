@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Random;
 
 public class GamePanel extends JPanel implements ActionListener {
-    public final Dimension SIZE = new Dimension(800, 550);
+    private final Dimension SIZE = new Dimension(800, 550);
     private final int OBSTACLE_WIDTH = 75;
     private final int GAP_CHANGE = 50;
     private final int OBSTACLE_GROUND_STEP = 2;
@@ -18,10 +18,10 @@ public class GamePanel extends JPanel implements ActionListener {
     private Integer score;
     private Obstacle[] obstacles = new Obstacle[3];
     private Ground[] grounds = new Ground[5];
-    public Bird bird;
-    public Timer gameTimer;
-    public int verticalDirection;
-    public boolean gameOver;
+    private Bird bird;
+    private Timer gameTimer;
+    private int verticalDirection;
+    private boolean gameOver;
     private BufferedImage backgroundImg;
     private BufferedImage birdImg;
     private BufferedImage topTubeImg;
@@ -36,6 +36,26 @@ public class GamePanel extends JPanel implements ActionListener {
             e.printStackTrace();
         }
         restart();
+    }
+
+    public Dimension getSIZE() {
+        return SIZE;
+    }
+
+    public Timer getGameTimer() {
+        return gameTimer;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public Bird getBird() {
+        return bird;
+    }
+
+    public void setVerticalDirection(int verticalDirection) {
+        this.verticalDirection = verticalDirection;
     }
 
     private void getResources() throws IOException {

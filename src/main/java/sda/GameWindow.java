@@ -10,14 +10,14 @@ public class GameWindow extends JFrame implements KeyListener {
 
     public GameWindow() {
         setTitle("Flappy Angry Bird");
-        setSize(new Dimension(830, 600));
-        setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new FlowLayout());
         gamePanel = new GamePanel();
-        gamePanel.setPreferredSize(gamePanel.SIZE);
+        gamePanel.setPreferredSize(gamePanel.getSIZE());
         gamePanel.setBackground(Color.cyan);
         add(gamePanel);
+        pack();
+        setLocationRelativeTo(null);
         setVisible(true);
         addKeyListener(this);
     }
@@ -30,19 +30,19 @@ public class GameWindow extends JFrame implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            gamePanel.verticalDirection = -1;
-            gamePanel.bird.setYLimit(gamePanel.bird.getY() - 40);
-            gamePanel.bird.setStep(25);
+            gamePanel.setVerticalDirection(-1);
+            gamePanel.getBird().setYLimit(gamePanel.getBird().getY() - 40);
+            gamePanel.getBird().setStep(25);
         }
-        if (e.getKeyCode() == KeyEvent.VK_ESCAPE && gamePanel.gameOver) {
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE && gamePanel.isGameOver()) {
             gamePanel.restart();
         }
         if (e.getKeyCode() == KeyEvent.VK_EQUALS || e.getKeyCode() == KeyEvent.VK_ADD) {
-            gamePanel.gameTimer.setDelay(gamePanel.gameTimer.getDelay() + 1);
+            gamePanel.getGameTimer().setDelay(gamePanel.getGameTimer().getDelay() + 1);
         }
         if ((e.getKeyCode() == KeyEvent.VK_MINUS || e.getKeyCode() == KeyEvent.VK_SUBTRACT)
-                && gamePanel.gameTimer.getDelay() > 0) {
-            gamePanel.gameTimer.setDelay(gamePanel.gameTimer.getDelay() - 1);
+                && gamePanel.getGameTimer().getDelay() > 0) {
+            gamePanel.getGameTimer().setDelay(gamePanel.getGameTimer().getDelay() - 1);
         }
     }
 
