@@ -33,15 +33,19 @@ public class GamePanel extends JPanel implements ActionListener {
     private GamePanel() {
         gameTimer = new Timer(30, this);
         try {
-            backgroundImg = ImageIO.read(getClass().getResourceAsStream("/bg.png"));
-            birdImg = ImageIO.read(getClass().getResourceAsStream("/angry.png"));
-            topTubeImg = ImageIO.read(getClass().getResourceAsStream("/tube1a.jpg"));
-            bottomTubeImg = ImageIO.read(getClass().getResourceAsStream("/tube2a.jpg"));
-            groundImg = ImageIO.read(getClass().getResourceAsStream("/ground.png"));
+            getResources();
         } catch (IOException e) {
             e.printStackTrace();
         }
         restart();
+    }
+
+    private void getResources() throws IOException {
+        backgroundImg = ImageIO.read(getClass().getResourceAsStream("/bg.png"));
+        birdImg = ImageIO.read(getClass().getResourceAsStream("/angry.png"));
+        topTubeImg = ImageIO.read(getClass().getResourceAsStream("/tube1a.jpg"));
+        bottomTubeImg = ImageIO.read(getClass().getResourceAsStream("/tube2a.jpg"));
+        groundImg = ImageIO.read(getClass().getResourceAsStream("/ground.png"));
     }
 
     private void restart() {
