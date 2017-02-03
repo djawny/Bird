@@ -12,63 +12,61 @@ public class GameWindow extends JFrame implements KeyListener {
         setTitle("Flappy Angry Bird");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new FlowLayout());
-        createGamePanel();
+        createAndAddGamePanel();
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
         addKeyListener(this);
     }
 
-    private void createGamePanel() {
+    private void createAndAddGamePanel() {
         gamePanel = new GamePanel();
         gamePanel.setPreferredSize(gamePanel.getSIZE());
         gamePanel.setBackground(Color.cyan);
         add(gamePanel);
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        birdJump(e);
-        restartGame(e);
-        addDelay(e);
-        subtractDelay(e);
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
-
-    private void subtractDelay(KeyEvent e) {
+    private void speedUpGameOnPlusPress(KeyEvent e) {
         if ((e.getKeyCode() == KeyEvent.VK_MINUS || e.getKeyCode() == KeyEvent.VK_SUBTRACT)
                 && gamePanel.getGameTimer().getDelay() > 0) {
             gamePanel.getGameTimer().setDelay(gamePanel.getGameTimer().getDelay() - 1);
         }
     }
 
-    private void addDelay(KeyEvent e) {
+    private void slowDownGameOnMinusPress(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_EQUALS || e.getKeyCode() == KeyEvent.VK_ADD) {
             gamePanel.getGameTimer().setDelay(gamePanel.getGameTimer().getDelay() + 1);
         }
     }
 
-    private void restartGame(KeyEvent e) {
+    private void restartGameOnEscPress(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE && gamePanel.isGameOver()) {
             gamePanel.restart();
         }
     }
 
-    private void birdJump(KeyEvent e) {
+    private void birdJumpOnSpacePress(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             gamePanel.setVerticalDirection(-1);
             gamePanel.getBird().setYLimit(gamePanel.getBird().getY() - 40);
             gamePanel.getBird().setStep(25);
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        birdJumpOnSpacePress(e);
+        restartGameOnEscPress(e);
+        slowDownGameOnMinusPress(e);
+        speedUpGameOnPlusPress(e);
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
     }
 }
 
