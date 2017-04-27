@@ -1,4 +1,8 @@
-package sda;
+package sda.ui;
+
+import sda.model.Bird;
+import sda.model.Ground;
+import sda.model.Obstacle;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

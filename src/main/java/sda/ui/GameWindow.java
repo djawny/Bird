@@ -1,4 +1,4 @@
-package sda;
+package sda.ui;
 
 import javax.swing.*;
 import java.awt.*;

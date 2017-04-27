@@ -1,20 +1,16 @@
-package sda;
+package sda.model;
 
-public class Obstacle {
+public class Ground {
     private int x;
     private int y;
     private int width;
     private int height;
-    private int gapY;
-    private int gapHeight;
 
-    public Obstacle(int x, int y, int width, int height, int gapY, int gapHeight) {
+    public Ground(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.gapY = gapY;
-        this.gapHeight = gapHeight;
     }
 
     public int getX() {
@@ -35,17 +31,5 @@ public class Obstacle {
 
     public int getHeight() {
         return height;
-    }
-
-    public int getGapY() {
-        return gapY;
-    }
-
-    public void setGapY(int gapY) {
-        this.gapY = gapY;
-    }
-
-    public int getGapHeight() {
-        return gapHeight;
     }
 }

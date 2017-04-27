@@ -1,4 +1,4 @@
-package sda;
+package sda.model;
 
 public class Bird {
     private int x;
